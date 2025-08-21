@@ -24,7 +24,11 @@ def main():
         dt = clock.tick(60) / 1000
         pygame.Surface.fill(screen,(0,0,0))
         ship.update(dt)
+        ship.move(dt)
+        ship.move(-dt)
         ship.draw(screen)
         pygame.display.flip()
+
+
 if __name__ == "__main__":
     main()
