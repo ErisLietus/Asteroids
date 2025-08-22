@@ -2,6 +2,7 @@
 # Dependencies: pygame 2.6.1
 # To install: uv add pygame==2.6.1
 import pygame
+import sys
 from constants import *
 from player import Player
 from asteroid import Asteroid
@@ -21,7 +22,7 @@ AsteroidField.containers = (updatable,)
 
 ship = Player(x = SCREEN_WIDTH/ 2, y = SCREEN_HEIGHT / 2) # making our space ship
 
-asteriod_field = AsteroidField() # making the asteroids
+asteroid_field = AsteroidField() # making the asteroids
 
 def main():
     print(f"Starting Asteroids!")
@@ -33,8 +34,15 @@ def main():
             if event.type == pygame.QUIT:
                 return
         dt = clock.tick(60) / 1000
+
         screen.fill((0,0,0))
+
         updatable.update(dt)
+        for asteroid in asteroids:
+            if ship.collision(asteroid):
+                print("Game over!")
+                sys.exit()
+
         for drawing in drawable:
             drawing.draw(screen)
         pygame.display.flip()
