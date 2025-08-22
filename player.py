@@ -1,6 +1,7 @@
 import pygame
 from circleshape import CircleShape
 from constants import *
+from shot import Shot
 
 class Player(CircleShape):
     def __init__(self ,x ,y):
@@ -25,6 +26,9 @@ class Player(CircleShape):
         if keys[pygame.K_w]:
             self.move(dt)
 
+        if keys[pygame.K_SPACE]:
+            self.shoot()
+
         self.warp()
         
     def move(self, dt):
@@ -37,8 +41,11 @@ class Player(CircleShape):
 
         self.position.y = self.position.y % SCREEN_HEIGHT
         # this keeps the ship inside the frame 
-
-        
+    def shoot(self):
+        player_shot = Shot(self.position.x, self.position.y)
+        velocity = pygame.Vector2(0,1)
+        velocity = velocity.rotate(self.rotation) * PLAYER_SHOOT_SPEED
+        player_shot.velocity = velocity
 
 # in the player class code below was provided by lesson
     def triangle(self):
