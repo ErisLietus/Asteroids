@@ -47,6 +47,14 @@ def main():
             if ship.collision(asteroid):
                 print("Game over!")
                 sys.exit()
+            for shot in shots:
+                if shot.collision(asteroid):
+                    shot.kill()
+                    asteroid.split()
+                   # print("what is new_asteroids?", new_asteroids, type(new_asteroids))
+                  #  if new_asteroids:
+                       # for new in new_asteroids:
+                       # asteroid_field.add(new_asteroids)
 
         for drawing in drawable:
             drawing.draw(screen)
