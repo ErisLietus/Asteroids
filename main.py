@@ -3,7 +3,9 @@
 # To install: uv add pygame==2.6.1
 import pygame
 from constants import *
-import player
+from player import Player
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
 
 pygame.init()
 clock = pygame.time.Clock()
@@ -11,10 +13,15 @@ dt = 0
 #To make the frame rate and the ship move as a consistance speed in different frame rates 
 updatable = pygame.sprite.Group()
 drawable = pygame.sprite.Group()
-player.Player.containers = (updatable, drawable)
+asteroids = pygame.sprite.Group()
+Player.containers = (updatable, drawable)
+Asteroid.containers = (asteroids, updatable, drawable)
+AsteroidField.containers = (updatable,)
 # groups to hold mutliple objects 
 
-ship = player.Player(x = SCREEN_WIDTH/ 2, y = SCREEN_HEIGHT / 2) # setting the screen size
+ship = Player(x = SCREEN_WIDTH/ 2, y = SCREEN_HEIGHT / 2) # making our space ship
+
+asteriod_field = AsteroidField() # making the asteroids
 
 def main():
     print(f"Starting Asteroids!")
