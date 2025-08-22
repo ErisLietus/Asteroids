@@ -25,9 +25,18 @@ class Player(circleshape.CircleShape):
         if keys[pygame.K_w]:
             self.move(dt)
 
+        self.warp()
+        
     def move(self, dt):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         self.position += forward * PLAYER_SPEED * dt
+
+    def warp(self):
+
+        self.position.x = self.position.x % SCREEN_WIDTH
+
+        self.position.y = self.position.y % SCREEN_HEIGHT
+        # this keeps the ship inside the frame 
 
         
 
