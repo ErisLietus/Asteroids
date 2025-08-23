@@ -56,10 +56,10 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
-        dt = clock.tick(60) / 1000 # frame rate and pace control
+        dt = clock.tick(60) / 1000 # Frame rate and pace control
         screen.fill((0,0,0))
 
-        updatable.update(dt) #updating the inputs to e.g move ship forward pressing W
+        updatable.update(dt) # Updating the inputs to e.g move ship forward pressing W
         for asteroid in asteroids: 
             if ship.collision(asteroid):
                 print("Game over!")
