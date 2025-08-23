@@ -1,6 +1,14 @@
-# Asteroids Game
-# Dependencies: pygame 2.6.1
-# To install: uv add pygame==2.6.1
+"""
+Asteroids Game
+---------------
+Main script for the Asteroids game.
+Handles initialization, the main game loop, rendering, user input, and collisions.
+
+Dependencies:
+    - pygame 2.6.1 (install with: uv add pygame==2.6.1)
+"""
+
+
 import pygame
 import sys
 from constants import *
@@ -11,55 +19,61 @@ from shot import Shot
 
 pygame.init()
 clock = pygame.time.Clock()
-dt = 0
-#To make the frame rate and the ship move as a consistance speed in different frame rates 
+dt = 0  # Frame time delta (for consistent speed across framerates)
 
+# Sprite groups for updating and drawing game objects
 updatable = pygame.sprite.Group()
 drawable = pygame.sprite.Group()
 asteroids = pygame.sprite.Group()
-shots = pygame.sprite.Group() # groups of objects to encapsulate for the ship, the pew pew and the asteroids
+shots = pygame.sprite.Group()
 
+# Assign groups to relevant sprite classes
 Player.containers = (updatable, drawable)
 Asteroid.containers = (asteroids, updatable, drawable)
 AsteroidField.containers = (updatable,)
-Shot.containers = (shots,updatable, drawable)
-# groups to hold mutliple objects 
+Shot.containers = (shots, updatable, drawable)
 
-ship = Player(x = SCREEN_WIDTH/ 2, y = SCREEN_HEIGHT / 2) # making our space ship
+# Initialize game objects
+ship = Player(x=SCREEN_WIDTH / 2, y=SCREEN_HEIGHT / 2)
+asteroid_field = AsteroidField()
 
-asteroid_field = AsteroidField() # making the asteroids
-
-def main():
+def main(): 
+    """
+    Initializes the game window and runs the main loop.
+    - Handles events and input.
+    - Updates game state (player, asteroids, shots).
+    - Detects collisions between ship, asteroids, and shots.
+    - Renders all drawable objects each frame.
+    """
+    # Game initialization and loop follows...
+    
     print(f"Starting Asteroids!")
     print(f"Screen width: {SCREEN_WIDTH}")
     print(f"Screen height: {SCREEN_HEIGHT}")
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
-        dt = clock.tick(60) / 1000
-
+        dt = clock.tick(60) / 1000 # frame rate and pace control
         screen.fill((0,0,0))
 
-        updatable.update(dt)
-        for asteroid in asteroids:
+        updatable.update(dt) #updating the inputs to e.g move ship forward pressing W
+        for asteroid in asteroids: 
             if ship.collision(asteroid):
                 print("Game over!")
-                sys.exit()
+                sys.exit() # Ends game on collision
+
             for shot in shots:
                 if shot.collision(asteroid):
-                    shot.kill()
-                    asteroid.split()
-                   # print("what is new_asteroids?", new_asteroids, type(new_asteroids))
-                  #  if new_asteroids:
-                       # for new in new_asteroids:
-                       # asteroid_field.add(new_asteroids)
+                    shot.kill() # Removes shot on collision
+                    asteroid.split() # split asteroid into smaller ones
+                  
 
-        for drawing in drawable:
+        for drawing in drawable: # Draws all objects on the screen
             drawing.draw(screen)
         pygame.display.flip()
-
 
 if __name__ == "__main__":
     main()
